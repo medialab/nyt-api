@@ -10,8 +10,9 @@
 # use
 
 got to:
-* `http://localhost:3000/fetch` to loop fetch articles
+* `http://localhost:3000/all` to loop fetch articles
 * `http://localhost:3000/write` to write db to file
+* `http://localhost:3000/launch` to start fetching articles (warning!)
 * `http://localhost:3000/authors` to display list of authors
 
 # License
