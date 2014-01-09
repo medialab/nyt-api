@@ -10,7 +10,6 @@ var models = require('../models/book');
 
 var init = {};
 
-var delay = 200;
 
 var nQueries = 0;
 
@@ -19,10 +18,8 @@ init.reqPage = function(q,di,page,callb) {
 	var data = {
     "q": q,
     "page":page,
-    "begin_date":"19900101",
-    "end_date":"20131231",
-    // "begin_date":di[0],
-    // "end_date":di[1],
+    "begin_date":di[0],
+    "end_date":di[1],
     //sort:"newest" | oldest,
     //fq=filter-field:(filter-term)
     //additional-params=values]
@@ -33,14 +30,11 @@ init.reqPage = function(q,di,page,callb) {
     qs:  data
   };
 
-  //utils.log("Q:"+q+" | page: "+page);
   utils.log(url+"?"+utils.serialize(options.qs),"help");
-
-  //var wanted = ['q','section_name','abstract','lead_paragraph','keywords','source','web_url','pub_date','section_name','_id','word_count'];
-
   request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       try {
+
         data = JSON.parse(body);
         //console.log(JSON.stringify(data,null,4));
 
@@ -49,28 +43,34 @@ init.reqPage = function(q,di,page,callb) {
         utils.log(JSON.stringify(di)+" | total is "+total+" - page: "+page);
 
         _.map(docs, function(d) {
+
           d.q = q;
           d.date = moment(d.pub_date).format("YYYYMMDD");
           models.all.update({aid:d._id}, {meta:d,aid:d._id}, {upsert: true}, function() {
             //utils.log("data updated in DB","help");
           });
-          return d;//_.pick(d,wanted);
+          
         });
+
       } catch(err) {
-        utils.log("Problem: "+err,"error");
+
+        utils.log("Problem parsing JSON: "+err,"error");
+
       }
 
-      //var arrayConcated = array.concat(docs);
-
-      if((page+1)*10>total) { // finished !
+      if((page+1)*10>total) { // finished ! (we have 10 results per page)
+        
         console.log(JSON.stringify(di)+" | done for: "+q);
         setTimeout( function() {
           callb();
-        },delay);
-      } else { // 
+        },config.delay);
+
+      } else { // next page
+
         setTimeout( function() {
           init.reqPage(q,di,page+1,callb);
-        },delay);
+        },config.delay);
+
       }
 
     } else {
@@ -83,11 +83,11 @@ init.fetchAndStore = function(q,k) {
   if(k<init.dis.length) {
     var di = init.dis[k];
     init.reqPage(q,di,0,function() {
-      utils.log("ALL pages fetched !");
+      utils.log("ALL pages fetched for time-interval: "+JSON.stringify(di));
       init.fetchAndStore(q,k+1);
     });
   } else {
-    utils.log("all time-intervals done"); 
+    utils.log("ALL time-intervals done"); 
   }
 };
 
@@ -212,33 +212,27 @@ init.dbToFile = function() {
 };
 
 init.startFetching = function() {
-  var res = [];
-  var nMade = 0;
-
-  var queryList = [
-    config.query, 
-  ];
-
-  //querylist = querylist.slice(0,2);
+  // the date intervals
   init.dis = [];
-  for(var y=2013;y<2014;y=y+1) {
+
+  for(var y=config.years[0];y<=config.years[1];y=y+1) {
+    for(var m=1;m<12;m=m+1) {
+      // replace 7 by 07 !
+      var mm = m<10 ? "0"+m : m;
+      var mm1 = m+1<10 ? "0"+(m+1) : (m+1);
+      init.dis.push([
+        ""+y+mm+"01",
+        ""+y+mm1+"01",
+      ]);
+    }
+    // don't forget december !
     init.dis.push([
-      ""+(y)+"1201",
-      ""+(y)+"1231",
+      ""+y+"1201",
+      ""+y+"1231",
     ]);
-    // for(var m=1;m<12;m=m+1) {
-    //   var mm = m<10 ? "0"+m : m;
-    //   var mm1 = m+1<10 ? "0"+(m+1) : (m+1);
-    //   init.dis.push([
-    //     ""+y+mm+"01",
-    //     ""+y+mm1+"01",
-    //   ]);
-    // }
   }
-  //init.dis = init.dis.slice(9,init.dis.length);
-  console.log(JSON.stringify(init.dis));
-  
-  init.fetchAndStore(queryList[0],0);
+  //console.log(JSON.stringify(init.dis));  
+  init.fetchAndStore(config.query,0);
 };
 
 init.writeFile = function(res) {

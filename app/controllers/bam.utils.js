@@ -1,19 +1,8 @@
-/*
-
-	Home made Utilities
-
-	Constants
-
-*/
-
 var $ = require('jquery');
 var _ = require('underscore');
 var fs = require('fs');
 var colors = require('colors');
-
-var utils = {};
-
-var colors = require('colors');
+var config = require('../../config.js');
 
 colors.setTheme({
   silly: 'rainbow',
@@ -27,6 +16,8 @@ colors.setTheme({
   debug: 'blue',
   error: 'red'
 });
+
+var utils = {};
 
 utils.log = function(str,format) {
   if(!format) var format = "info";
