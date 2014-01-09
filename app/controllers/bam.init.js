@@ -211,16 +211,12 @@ init.dbToFile = function() {
   });
 };
 
-init.load = function() {
+init.startFetching = function() {
   var res = [];
   var nMade = 0;
 
   var queryList = [
-    '"global warming" OR "climate change"', // limited to 100 pages
-    //'climate adaptation', //639
-    //'"climate change"', //limited !
-    //'climate change adaptation', //438
-    //'"global warming"', //limited !    
+    config.query, 
   ];
 
   //querylist = querylist.slice(0,2);
