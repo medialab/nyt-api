@@ -8,6 +8,14 @@ to see sample result of the `/authors` endpoint, go to:
 
 [http://medialab.github.io/nyt-api/public/sample.html](http://medialab.github.io/nyt-api/public/sample.html)
 
+it works because i just copied and pasted my local rendered html (and the `/css` and `/js` are relatives in the same `/public` folder)
+
+# to do
+
+* put all the special cases from `bam.utils.js` in `config.js`
+* automatic time-interval splitting (not only month by month)
+* allow multiple queries
+
 # install
 
 > npm install
@@ -15,6 +23,9 @@ to see sample result of the `/authors` endpoint, go to:
 # run
 
 > cp config.default.js config.js (and update)
+
+> mongod
+
 > npm start
 
 # use
