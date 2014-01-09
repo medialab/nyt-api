@@ -1,0 +1,41 @@
+{
+  "name": "nyt-api",
+  "description": "NYT API",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "scripts": {
+    "start": "NODE_PATH=./app/controllers NODE_ENV=development ./node_modules/.bin/nodemon server.js",
+    "test": "make test"
+  },
+  "dependencies": {
+    "express": "latest",
+    "express-namespace": "latest",
+    "mongoose": "latest",
+    "mongoose-user": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "connect-mongo": "latest",
+    "connect-flash": "latest",
+    "view-helpers": "latest",
+    "jade": "latest",
+    "moment": "latest",
+    "async": "latest",
+    "forever": "latest",
+    "underscore": "~1.5.2",
+    "jquery": "~1.8.3",
+    "request": "2.30.x",
+    "marked": "~0.2.10",
+    "colors":"0.6.2",
+    "mkdirp":"0.3.x"
+  },
+  "devDependencies": {
+    "nodemon": "latest",
+    "mocha": "latest",
+    "should": "latest",
+    "supertest": "latest"
+  }
+}

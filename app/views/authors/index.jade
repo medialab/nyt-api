@@ -1,0 +1,27 @@
+extends ../layouts/default
+
+block main
+
+block content
+	each d in dates
+		div.line
+			div.date= d.datestr 
+			div.authors
+				each l in d.authors
+					div.author.hinty--top(
+						"data-class"=l.class,
+						"data-count"=l.count,
+						"data-hinty"=l.count,
+						"class"=l.class,
+						"style"="font-size:"+l.size+"em",
+					)
+						span= l.name
+						ul
+							each art in l.articles
+								li
+									a(
+										"href"=art.url
+										"target"="_new"
+									)= art.name
+
+

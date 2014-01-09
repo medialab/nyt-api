@@ -1,0 +1,64 @@
+
+body {
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	line-height: 1.4;
+	color: #333333;
+	background: #fff;
+	padding: 50px;
+	text-align: center;
+}
+
+.line:nth-of-type(odd) {
+	background: #F4F4F4;
+}
+
+.date {
+	width: 10%;
+	display: inline-block;
+	text-align: right;
+	vertical-align: top;
+	font-style: italic;
+	color: gray;
+	padding: 10px;
+}
+
+.authors {
+	width: 85%;
+	display: inline-block;
+	text-align: left;
+}
+
+.author {
+	display: inline-block;
+	color: gray;
+	margin-right:7px;
+}
+.author:hover {
+	cursor: pointer;
+	background: #C9D2FF;
+}
+.author.active {
+	background: #FFE7BE;
+}
+
+.author ul {
+	display:none;
+}
+
+ul {
+	text-align: left;
+	padding: 5px;
+	margin: 0;
+	list-style: none;
+}
+li {
+	margin:5px;
+}
+a {
+	color: whitesmoke;
+	text-decoration: none;
+	font-size: 12px;
+}
+a:hover {
+	color: #4183C4;
+}
