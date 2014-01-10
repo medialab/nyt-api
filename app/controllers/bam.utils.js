@@ -86,8 +86,6 @@ var getName = function(p) {
 	return conc.replace(/\s+nyt/,"").trim();
 };
 
-var blackList = ["the associated press","reuters","nobyline","the new york times","dealbook","the editorial board"];
-
 utils.extractTheAuthors = function(meta) {
 	var d = meta.byline;
 	if(d) {
@@ -155,7 +153,7 @@ utils.extractTheAuthors = function(meta) {
 
 utils.extractAuthors = function(meta) {
 	var authors = utils.extractTheAuthors(meta);
-	return filtered = _.difference(authors,blackList);
+	return filtered = _.difference(authors, config.authorBlacklist);
 };
 
 module.exports = utils;
